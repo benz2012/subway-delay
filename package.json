@@ -5,12 +5,10 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "protobufjs": "~6.8.8"
+    "protobufjs": "~6.8.8",
+    "request": "^2.88.0"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
+  "author": "Ben Zenker",
+  "repository": "https://github.com/benz2012/subway-delay.git",
   "license": "ISC"
 }
