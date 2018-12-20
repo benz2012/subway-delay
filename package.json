@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "csv-parser": "^2.1.0",
     "protobufjs": "~6.8.8",
     "request": "^2.88.0"
   },
