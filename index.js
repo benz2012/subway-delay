@@ -26,8 +26,10 @@ const fetchFeed = () => {
 
     const currMessage = FeedMessage.decode(body)
 
-    // perform comparison
-    if (JSON.stringify(prevMessage) !== JSON.stringify(currMessage)) {
+    if (
+      prevMessage !== undefined &&
+      JSON.stringify(prevMessage) !== JSON.stringify(currMessage)
+    ) {
       subwayDelay(prevMessage, currMessage)
       prevMessage = currMessage
     }

@@ -101,6 +101,7 @@ const stopTimer = (from, to, tripId, timestamp) => {
 
 const save = (from, to, start, end) => {
   const delta = parseInt(end) - parseInt(start)
+  console.log(`Saving: ${from} -> ${to} in ${delta} seconds`)
 
   fs.readFile(DELTA_DATA_FILE, 'utf8', (err, data) => {
     if (err) {
