@@ -7,7 +7,8 @@
   "devDependencies": {
     "csv-parser": "^2.1.0",
     "protobufjs": "~6.8.8",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "set-value": "^3.0.0"
   },
   "author": "Ben Zenker",
   "repository": "https://github.com/benz2012/subway-delay.git",
