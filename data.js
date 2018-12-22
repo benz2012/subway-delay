@@ -33,16 +33,22 @@ module.exports.evaluate = (prev, curr) => {
     if (prev.status !== 'STOPPED_AT' && curr.status === 'STOPPED_AT') {
       // Train was approaching a station and has now stopped at that station
       // End the current station-trip timer and start the next one
-      stopCurrentStartNext(curr)
+      stopStartStationTimers(curr)
     }
   } else if (prev.stopId === prevStop(curr.stopId)) {
     if (prev.status !== 'STOPPED_AT') {
       // current station-trip timer was never ended and we are now approaching
       // the next station. interpolate when the train was at that station
+      const timestamp = interpolateStopTime(prev.status, prev.timestamp, curr.timestamp)
+      stopStartStationTimers({
+        stopId: prev.stopId,
+        tripId: prev.tripId,
+        timestamp,
+      })
     }
     if (curr.status === 'STOPPED_AT') {
       // the `next` station-trip timer is already finished as well
-      stopCurrentStartNext(curr)
+      stopStartStationTimers(curr)
     }
   } else {
     console.log(`
@@ -53,10 +59,23 @@ module.exports.evaluate = (prev, curr) => {
   return
 }
 
-const stopCurrentStartNext = (vehicle) => {
+const stopStartStationTimers = (vehicle) => {
   const { stopId, tripId, timestamp } = vehicle
   stopTimer(prevStop(stopId), stopId, tripId, timestamp)
   startTimer(stopId, nextStop(stopId), tripId, timestamp)
+}
+
+const interpolateStopTime = (status, before, now) => {
+  const delta = parseInt(now) - parseInt(before)
+  let offset
+  if (status === 'INCOMING_AT') {
+    // Train was very close to being stoppped
+    offset = parseInt(delta * 0.1)
+  } else if (status === 'IN_TRANSIT_TO') {
+    // Train was in between 2 stations
+    offset = parseInt(delta * 0.3)
+  }
+  return parseInt(before) + offset
 }
 
 const startTimer = (from, to, tripId, timestamp) => {
