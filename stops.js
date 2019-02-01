@@ -15,21 +15,18 @@ fs.createReadStream('./static_data/stops.csv')
       .filter((stop) => stop.parent_station !== '')
       .reduce((accum, curr, idx, arr) => {
         const station = curr.parent_station
-        accum[station] = {}
-
-        if (idx > 2) {
-          accum[station].before = arr[idx - 2].parent_station,
-        }
-        if (idx < arr.length - 2) {
-          accum[station].after = arr[idx + 2].parent_station,
-        }
-
-        if (accum[station].ids !== undefined) {
-          accum[station].ids.push(curr.stop_id)
-        } else {
+        if (accum[station] === undefined) {
+          accum[station] = {}
+          if (idx > 2) {
+            accum[station].before = arr[idx - 2].parent_station
+          }
+          if (idx < arr.length - 2) {
+            accum[station].after = arr[idx + 2].parent_station
+          }
           accum[station].ids = [curr.stop_id]
+        } else {
+          accum[station].ids.push(curr.stop_id)
         }
-
         return accum
       }, {})
     console.log('Stop Data Loaded!')
@@ -50,12 +47,12 @@ module.exports.prevStop = (stopId) => {
   const group = groupFromStopId(stopId)
   const direction = stopId.substring(stopId.length - 1)
   const nextParent = direction == 'N' ? group.after : group.before
-  return stopIdFromParent(parent, direction)
+  return stopIdFromParent(nextParent, direction)
 }
 
 module.exports.nextStop = (stopId) => {
   const group = groupFromStopId(stopId)
   const direction = stopId.substring(stopId.length - 1)
   const nextParent = direction == 'N' ? group.before : group.after
-  return stopIdFromParent(parent, direction)
+  return stopIdFromParent(nextParent, direction)
 }

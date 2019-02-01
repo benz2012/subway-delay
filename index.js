@@ -20,16 +20,26 @@ let prevMessage
 const fetchFeed = () => {
   request(options, (error, response, body) => {
     if (error) {
-      console.log(error)
+      console.log('Request Error\n', error)
       return
     }
 
-    const currMessage = FeedMessage.decode(body)
+    if (response.statusCode !== 200) {
+      console.log(`Bad Response Code ${response.statusCode}\n`)
+      return
+    }
 
-    if (
-      prevMessage !== undefined &&
-      JSON.stringify(prevMessage) !== JSON.stringify(currMessage)
-    ) {
+    const currMessage = JSON.parse(JSON.stringify(
+      FeedMessage.decode(body)
+    ))
+
+    if (prevMessage === undefined) {
+      console.log('First Message Received.')
+      prevMessage = currMessage
+    }
+
+    if (JSON.stringify(prevMessage) !== JSON.stringify(currMessage)) {
+      console.log('New Message Received.')
       subwayDelay(prevMessage, currMessage)
       prevMessage = currMessage
     }

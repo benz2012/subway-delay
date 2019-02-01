@@ -1,0 +1,19 @@
+{
+    "id": "000002",
+    "vehicle": {
+        "trip": {
+            "tripId": "122050_1..N03R",
+            "startDate": "20181209",
+            "routeId": "1",
+            ".nyctTripDescriptor": {
+                "trainId": "01 2020+ SFT/242",
+                "isAssigned": true,
+                "direction": "NORTH"
+            }
+        },
+        "currentStopSequence": 34,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1544407888",
+        "stopId": "107N"
+    }
+}

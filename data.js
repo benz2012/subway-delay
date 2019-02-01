@@ -1,7 +1,6 @@
 const fs = require('fs')
 const setValue = require('set-value')
 
-const times = require('./times')
 const { prevStop, nextStop } = require('./stops')
 
 const DELTA_DATA_FILE = './deltas.json'
@@ -51,10 +50,11 @@ module.exports.evaluate = (prev, curr) => {
       stopStartStationTimers(curr)
     }
   } else {
-    console.log(`
-    ANOMMALY
-    STOP IDS: ${prev.stopId} -> ${curr.stopId}
-    STATUSES: ${prev.status} -> ${curr.status}`)
+    console.log('ANOMMALY\n' +
+      `STOP IDS: ${prev.stopId} -> ${curr.stopId}\n` +
+      `STATUSES: ${prev.status} -> ${curr.status}\n` +
+      `prev ${prevStop(curr.stopId)} next ${nextStop(curr.stopId)}`
+    )
   }
   return
 }
