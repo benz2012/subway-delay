@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "protobufjs": "~6.8.8",
+    "protobufjs": "~6.11.3",
     "request": "^2.88.0"
   },
   "author": "Ben Zenker",
